@@ -171,6 +171,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  result_command:
+    dependency: "direct main"
+    description:
+      name: result_command
+      sha256: "629917f2f492bd9ceb3178868d393e7d5ff9fb6c8fc20f3de5e16ec013bc331d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  result_dart:
+    dependency: "direct main"
+    description:
+      name: result_dart
+      sha256: "80096f0928e276c024e53cf1bb2aaffd5a94623dac8fdfa5cb3529e82b51eb3c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   sky_engine:
     dependency: transitive
     description: flutter

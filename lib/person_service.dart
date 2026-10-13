@@ -1,12 +1,13 @@
 import 'package:app_2/models/person.dart';
 import 'package:dio/dio.dart';
+import 'package:result_dart/result_dart.dart';
 
 class PersonService {
   new({required this._dio});
 
   final Dio _dio;
 
-  Future<List<Person>> getPersons({String? seed, int? results}) async {
+  Future<Result<List<Person>>> getPersons({String? seed, int? results}) async {
     try {
       final List<Person> persons = [];
 
@@ -24,7 +25,7 @@ class PersonService {
         persons.add(person);
       }
 
-      return persons;
+      return Success(persons);
     } on DioException catch (e) {
       throw Exception(e.message);
     }
