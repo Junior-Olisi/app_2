@@ -6,9 +6,16 @@ import 'package:result_command/result_command.dart';
 import 'package:result_dart/result_dart.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, this.title = 'Home Page'});
+  const HomePage({
+    super.key,
+    this.title = 'Home Page',
+    this.seed = 'test',
+    this.results = 20,
+  });
 
   final String title;
+  final String seed;
+  final int results;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,9 +33,9 @@ class _HomePageState extends State<HomePage> {
     _personService = PersonService(dio: Dio());
 
     Future.delayed(
-      const Duration(milliseconds: 100),
+      const Duration(milliseconds: 20),
       () async {
-        await _getPersonsCommand.execute('test', 20);
+        await _getPersonsCommand.execute(widget.seed, widget.results);
         if (_getPersonsCommand.value.isSuccess) {
           final result = _getPersonsCommand.value as SuccessCommand<List<Person>>;
           _persons.value = result.value;
@@ -66,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                         subtitle: Text(person.email),
                         trailing: person.gender == 'female'
                             ? Icon(Icons.woman, color: Colors.redAccent) //
-                            : Icon(Icons.man, color: Colors.blueAccent),
+                            : Icon(Icons.man, color: Colors.orange),
                       ),
                     ),
                   ],
