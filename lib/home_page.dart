@@ -3,6 +3,7 @@ import 'package:app_2/person_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:result_command/result_command.dart';
+import 'package:result_dart/result_dart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.title = 'Home Page'});
@@ -17,21 +18,27 @@ class _HomePageState extends State<HomePage> {
   final ValueNotifier<List<Person>> _persons = ValueNotifier([]);
 
   late final PersonService _personService;
-  late final Command0 _getPersonsCommand;
+  late final _getPersonsCommand = Command2(_getPersons);
 
   @override
   void initState() {
     super.initState();
     _personService = PersonService(dio: Dio());
-    _getPersonsCommand = Command0(_personService.getPersons);
 
     Future.delayed(
       const Duration(milliseconds: 100),
       () async {
-        await _getPersonsCommand.execute();
-        if (_getPersonsCommand.value.isFailure) {}
+        await _getPersonsCommand.execute('test', 20);
+        if (_getPersonsCommand.value.isSuccess) {
+          final result = _getPersonsCommand.value as SuccessCommand<List<Person>>;
+          _persons.value = result.value;
+        }
       },
     );
+  }
+
+  AsyncResult<List<Person>> _getPersons(String? seed, int? results) {
+    return _personService.getPersons(seed, results);
   }
 
   @override
@@ -39,8 +46,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text(widget.title)),
       body: AnimatedBuilder(
-        animation: _persons,
-        builder: (_, __) {
+        animation: _getPersonsCommand,
+        builder: (_, _) {
           return _getPersonsCommand.value.isRunning
               ? Center(
                   child: CircularProgressIndicator(),

@@ -7,7 +7,7 @@ class PersonService {
 
   final Dio _dio;
 
-  Future<Result<List<Person>>> getPersons({String? seed, int? results}) async {
+  AsyncResult<List<Person>> getPersons(String? seed, int? results) async {
     try {
       final List<Person> persons = [];
 
