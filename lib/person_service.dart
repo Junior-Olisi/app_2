@@ -16,10 +16,14 @@ class PersonService {
       final personsMapsList = resultMap['results'] as List;
 
       for (var personMap in personsMapsList) {
+        final gender = personMap['gender'];
+        final name = "${personMap['name']['first']} ${personMap['name']['last']}";
+        final email = personMap['email'];
+
         final person = Person(
-          gender: personMap['gender'],
-          name: personMap['name']['title'],
-          email: personMap['email'],
+          gender: gender,
+          name: name,
+          email: email,
         );
 
         persons.add(person);
