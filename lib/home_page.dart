@@ -17,19 +17,21 @@ class _HomePageState extends State<HomePage> {
   final ValueNotifier<List<Person>> _persons = ValueNotifier([]);
 
   late final PersonService _personService;
-  late final Command0 _getPersonsCommand;
+  late final Command0<List<Person>> _getPersonsCommand;
 
   @override
   void initState() {
     super.initState();
     _personService = PersonService(dio: Dio());
-    _getPersonsCommand = Command0(_personService.getPersons);
+    _getPersonsCommand = Command0<List<Person>>(_personService.getPersons);
 
     Future.delayed(
       const Duration(milliseconds: 100),
       () async {
         await _getPersonsCommand.execute();
-        if (_getPersonsCommand.value.isFailure) {}
+        if (_getPersonsCommand.value.isSuccess) {
+          _persons.value = _getPersonsCommand.value as List<Person>;
+        }
       },
     );
   }
@@ -39,8 +41,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text(widget.title)),
       body: AnimatedBuilder(
-        animation: _persons,
-        builder: (_, __) {
+        animation: _getPersonsCommand,
+        builder: (_, _) {
           return _getPersonsCommand.value.isRunning
               ? Center(
                   child: CircularProgressIndicator(),
