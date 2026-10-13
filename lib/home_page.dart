@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                         title: Text(person.name),
                         subtitle: Text(person.email),
                         trailing: person.gender == 'female'
-                            ? Icon(Icons.woman, color: Colors.purpleAccent) //
+                            ? Icon(Icons.woman, color: Colors.redAccent) //
                             : Icon(Icons.man, color: Colors.blueAccent),
                       ),
                     ),
